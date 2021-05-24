@@ -9,8 +9,23 @@ import java.util.List;
 
 import services.dao.Producto;
 
+/**
+ * 
+ * @author Christian Pons Hernández
+ *
+ */
+
 public class ProductoManager {
 
+	
+	//	MÉTODOS
+	
+	
+	/**
+	 * obtiene una lista con todos los productos de la base de datos.
+	 * @param con Coneción con la base de datos.
+	 * @return lista con todos los productos.
+	 */
 	public List<Producto> obtenerProductos(Connection con){
 		try(Statement stmt = con.createStatement()) {
 			ResultSet result = stmt.executeQuery("SELECT * FROM productos");

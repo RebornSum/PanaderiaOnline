@@ -6,27 +6,36 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * 
+ * @author Christian Pons Hernández
+ *
+ */
+
 public class Conector {
 
 	Properties prop = new Properties();
 	
 	public Conector() {
 		try {
-			//Loads all the properties of file "config.properties".
 			prop.load(getClass().getClassLoader().getResourceAsStream("config.properties"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
+	
+	/**
+	 * recoge el driver MySQLConstants y crea la URL para poder generar la conexión.
+	 * @return
+	 */
 	public Connection getMySQLConnection() {
 		try {
-			//Indicates which driver is going to be used.
+			
 			Class.forName(prop.getProperty(MySQLConstants.DRIVER));
 
 			try {
-				//Creates the connection based on the obtained URL.
-
+			
 				return DriverManager.getConnection(getURL());
 		
 			} catch (SQLException e) {
@@ -39,7 +48,10 @@ public class Conector {
 			return null;
 	}
 
-	
+	/**
+	 * String URL sacados de los datos de MySQLConstants. 
+	 * @return String con la url.
+	 */
 	private String getURL() {
 		return new StringBuilder().append(prop.getProperty(MySQLConstants.URL_PREFIX))
 		.append(prop.getProperty(MySQLConstants.URL_HOST)).append(":")

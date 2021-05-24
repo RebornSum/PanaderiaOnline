@@ -12,6 +12,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
@@ -74,7 +76,7 @@ public class CEntregarPedido implements Initializable {
 	 */
 	private void prepararSeccion1() {
 		List<Button>botones = crearBotones();
-		List<Node>hijosSeccion = ((FlowPane)ventana.getChildren()).getChildren();
+		List<Node>hijosSeccion = ((FlowPane)ventana.getChildren().get(0)).getChildren();
 		hijosSeccion.add(botones.get(0));
 		hijosSeccion.add(new Label(datos.getTelefono()));
 		
@@ -100,6 +102,7 @@ public class CEntregarPedido implements Initializable {
 			Button boton = new Button(datos.getTextosBotones().get(i));
 			boton.setId("" + i);
 			boton.addEventHandler(MouseEvent.MOUSE_CLICKED, eventosBotones);
+			botones.add(boton);
 		}
 		return botones;
 	}
@@ -115,13 +118,19 @@ public class CEntregarPedido implements Initializable {
 		hijosSeccion.removeAll(hijosSeccion);
 		
 		try (Connection con = new Conector().getMySQLConnection()) {
-			pedidoCliente = new PedClienteManager().obtenerTodosLosPedidos(con).stream()
-					.filter(pedido -> pedido.getTelefono() == telefono.getText()
-							&& pedido.getNumPedido() == Integer.parseInt(numPedido.getText()))
-					.findFirst().orElse(null);
+			pedidoCliente = new PedClienteManager().obtenerPedido(con,telefono.getText(),Integer.parseInt(numPedido.getText()));
+			
+			if(pedidoCliente == null) {
+				throw new NullPointerException();
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			
+		} catch (NullPointerException a) {
+			Alert m = new Alert(AlertType.ERROR);
+			m.setContentText(datos.getError());
+			m.show();
 		}
 		
 		total = 0.0;

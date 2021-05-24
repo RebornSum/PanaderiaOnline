@@ -5,6 +5,12 @@ import java.sql.SQLException;
 
 import lombok.Getter;
 
+/**
+ * 
+ * @author Christian Pons Hernández
+ *
+ */
+
 @Getter
 public class Producto {
 	private int codigo;

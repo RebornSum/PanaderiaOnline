@@ -1,5 +1,11 @@
 package services.conector;
 
+/**
+ * 
+ * @author Christian Pons Hernández
+ *
+ */
+
 public class MySQLConstants {
 
 	public static final String PASSWD = "jdbc.mysql.passwd";

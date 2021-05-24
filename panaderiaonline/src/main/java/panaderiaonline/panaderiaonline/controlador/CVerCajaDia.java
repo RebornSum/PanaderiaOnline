@@ -28,6 +28,12 @@ import services.conector.Conector;
 import services.dao.PedCliente;
 import services.manager.PedClienteManager;
 
+/**
+ * 
+ * @author Christian Pons Hernández
+ *
+ */
+
 public class CVerCajaDia implements Initializable {
 
 	//	ATRIBUTOS
@@ -67,7 +73,7 @@ public class CVerCajaDia implements Initializable {
 	
 	
 	/**
-	 * Crea tantos botones como cantidad de textos en su modelo y les añade el evento.
+	 * Crea tantos botones como cantidad de textos en su modelo - 1 y les añade el evento.
 	 * @return lista de todos los botones.
 	 */
 	private List<Button> crearBotones() {
@@ -77,6 +83,7 @@ public class CVerCajaDia implements Initializable {
 			Button boton = new Button(datos.getTextos().get(i));
 			boton.setPadding(new Insets(0, 20, 0, 20));
 			boton.addEventHandler(MouseEvent.MOUSE_CLICKED, eventosBotones);
+			boton.setId("" + i);
 			botones.add(boton);
 		}
 		return botones;
@@ -114,7 +121,7 @@ public class CVerCajaDia implements Initializable {
 	/**
 	 * recoge la id del botón que ha realizado el evento.
 	 * <ul>
-	 * 		<li>si la id del bóton es "0" volverá al inicio.</li>
+	 * 		<li>si la id del bóton es 0 volverá al inicio.</li>
 	 * 		<li>si no es así, llamará al evento calcularCaja.</li>
 	 * </ul>
 	 */
@@ -122,7 +129,9 @@ public class CVerCajaDia implements Initializable {
 		
 		@Override
 		public void handle(MouseEvent evt) {
-			if(((Control)evt.getSource()).getId() == "0") {
+			int id = Integer.parseInt(((Control)evt.getSource()).getId());
+			
+			if(id == 0) {
 				try {
 					App.setRoot("Inicio");
 					
@@ -131,6 +140,7 @@ public class CVerCajaDia implements Initializable {
 				}
 				
 			}else {
+				System.out.println(((Control)evt.getSource()).getId());
 				calcularCaja();
 			}
 				
