@@ -17,7 +17,7 @@ import javafx.scene.control.Control;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import modelo.PropiedadesAnadirPedido;
-import modelo.TitulosYmenus;
+import modelo.TitulosMenusYHacerProductos;
 import panaderiaonline.panaderiaonline.App;
 
 /**
@@ -32,7 +32,7 @@ public class InicioController implements Initializable{
 	
 	@FXML HBox ventana;
 	Button boton;
-	private TitulosYmenus t;
+	private TitulosMenusYHacerProductos t;
 	
 	
 	//	INICIALIZADOR
@@ -40,7 +40,7 @@ public class InicioController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		t = new TitulosYmenus();
+		t = new TitulosMenusYHacerProductos();
 		añadirBotones();
 		
 		

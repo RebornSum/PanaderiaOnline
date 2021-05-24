@@ -133,7 +133,7 @@ public class CAnadirPedido implements Initializable{
 		List<Node>hijosSeccion = ((VBox)ventana.getChildren().get(2)).getChildren();
 		
 		FlowPane panel = new FlowPane();
-		panel.setPadding(new Insets(20, 0, 0, 0));
+		panel.setPadding(datos.getInstets());
 		List<Node>hijosPanel = panel.getChildren();
 		
 		ComboBox<Producto> itemMenu = new ComboBox<>();

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javafx.geometry.Insets;
 import lombok.Getter;
 import services.conector.Conector;
 import services.dao.Producto;
@@ -27,6 +28,7 @@ public class PropiedadesAnadirPedido {
 	private String promptText;
 	private List<String>mensajes;
 	private List<String>numeros;
+	private Insets instets;
 	
 	public PropiedadesAnadirPedido() {
 		numeroSecciones = 3;
@@ -36,6 +38,7 @@ public class PropiedadesAnadirPedido {
 		promptText = "Cantidad";
 		mensajes = Arrays.asList("Introduce un teléfono real","El pedido ya ha sido introducido","Pedido añadido corréctamente");
 		numeros = Arrays.asList("0","1","2","3","4","5","6","7","8","9");
+		instets = new Insets(20, 0, 0, 0);
 		
 	}
 }
