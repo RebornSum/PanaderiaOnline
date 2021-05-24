@@ -16,7 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import modelo.Textos;
+import modelo.PropiedadesAñadirPedido;
 import panaderiaonline.panaderiaonline.App;
 
 public class InicioController implements Initializable{
@@ -34,7 +34,7 @@ public class InicioController implements Initializable{
 
 	private void añadirBotones() {
 		List<Node> hijosVentana = ventana.getChildren();
-		Textos t = new Textos();
+		PropiedadesAñadirPedido t = new PropiedadesAñadirPedido();
 		
 		for(int i = 0; i < t.getTextosMenu().size(); i++) {
 			this.boton = new Button(t.getTextosMenu().get(i));

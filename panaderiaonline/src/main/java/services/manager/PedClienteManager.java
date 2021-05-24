@@ -19,7 +19,7 @@ public class PedClienteManager {
 			ResultSet result = stmt.executeQuery("SELECT * FROM ped_cliente");
 			result.beforeFirst();
 
-			List<Pedido> todosLosPedidos = new PedidoManager().ObtenerTodosLosPedidos();
+			List<Pedido> todosLosPedidos = new PedidoManager().ObtenerTodosLosPedidos(con);
 			List<PedCliente> pedidosClientes = new ArrayList<>();
 
 			while (result.next()) {
@@ -39,43 +39,21 @@ public class PedClienteManager {
 
 	// Pendiente de creación
 
-	public void añadirPedido(Connection con, String telefono) {
+	public void añadirPedido(Connection con, String telefono, int numPedido) {
 		try (PreparedStatement stmt = con.prepareStatement(
-				"INSERT INTO ped_clientes values(?,(SELECT COALESCE(MAX(a.num_pedido),0) FROM ped_cliente a) + 1,?")){
+				"INSERT INTO ped_clientes values(?,?,?")){
 			
 			stmt.setString(1, telefono);
-			stmt.setDate(2, new Date(System.currentTimeMillis()));
+			stmt.setInt(2, numPedido);
+			stmt.setDate(3, new Date(System.currentTimeMillis()));
 			stmt.executeUpdate();
 			
-		} catch (Exception e) {
-			// TODO: handle exception
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 
-	// MOVER AL CONTROLADOR DE LA VENTANA
-
-	/*
-	 * public List<PedCliente> obtenerPedidosOrdenadosPorCliente(Connection con){
-	 * List<PedCliente> listaOrdenada = obtenerTodosLosPedidos(con).stream()
-	 * .sorted(Comparator.comparing(PedCliente::getTelefono)).collect(Collectors.
-	 * toList());
-	 * 
-	 * return listaOrdenada; }
-	 * 
-	 * public List<PedCliente> obtenerPedidosOrdenadosPorDia(Connection con){
-	 * List<PedCliente> listaOrdenada = obtenerTodosLosPedidos(con).stream()
-	 * .sorted(Comparator.comparing(PedCliente::getFecha)).collect(Collectors.toList
-	 * ());
-	 * 
-	 * return listaOrdenada; }
-	 * 
-	 * public List<PedCliente> obtenerPedidosOrdenadosPorTipoDePanes(Connection
-	 * con){ List<PedCliente> listaOrdenada = obtenerTodosLosPedidos(con).stream()
-	 * .sorted(Comparator.comparing(Producto::getNombre)).collect(Collectors.toList(
-	 * ));
-	 * 
-	 * return listaOrdenada; }
-	 */
+	
 
 	private List<Pedido> obtenerPedidosCliente(int numPedido, List<Pedido> todosLosPedidos) {
 		List<Pedido> pedidosDelCliente = new ArrayList<>();
@@ -86,5 +64,17 @@ public class PedClienteManager {
 		}
 
 		return pedidosDelCliente;
+	}
+
+	public int obtenerNumeroPedido(Connection con) {
+		try (Statement stmt = con.createStatement()){
+			ResultSet result = stmt.executeQuery("SELECT COALESCE(MAX(num_pedido),0) FROM ped_cliente");
+			return result.getInt(0) + 1;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return 0;
+		}
+		
 	}
 }

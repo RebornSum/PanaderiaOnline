@@ -12,7 +12,7 @@ import services.dao.Producto;
 import services.manager.ProductoManager;
 
 @Getter
-public class Textos {
+public class PropiedadesAñadirPedido {
 
 	private List<String>textosMenu;
 	private int numeroSeccionesAnadirPedido;
@@ -22,7 +22,7 @@ public class Textos {
 	private String promptText;
 	private List<String>mensajesError;
 	
-	public Textos() {
+	public PropiedadesAñadirPedido() {
 		this.textosMenu = Arrays.asList("Añadir pedido","Mostrar pedidos","Ver caja del día","Entregar pedido");
 		this.numeroSeccionesAnadirPedido = 3;
 		this.textosSeccion1AnadirPedido = Arrays.asList("Volver al menu","Confirmar pedido");

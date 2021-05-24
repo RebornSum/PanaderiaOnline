@@ -20,9 +20,9 @@ public class ProductoManager {
 			
 			while(result.next()) {
 				listaDeProductos.add(new Producto(result));
-				System.out.println("Entra");
+				
 			}
-			System.out.println("funciona");
+
 			return listaDeProductos;
 			
 		} catch (SQLException e) {

@@ -11,14 +11,14 @@ import lombok.Setter;
 @Getter
 public class PedCliente {
 
-	private int telefono;
+	private String telefono;
 	private int numPedido;
 	private Date fecha;
 	@Setter private List<Pedido> pedidos;
 	
 	public PedCliente(ResultSet result) {
 		try {
-			this.telefono = result.getInt("telefono");
+			this.telefono = result.getString("telefono");
 			this.numPedido = result.getInt("num_pedido");
 			this.fecha = result.getDate("fecha");
 		} catch (SQLException e) {

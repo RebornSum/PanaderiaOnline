@@ -1,4 +1,4 @@
-package panaderiaonline.panaderiaonline.controlador;
+package modelo;
 
 import javafx.scene.control.ListCell;
 import services.dao.Producto;
