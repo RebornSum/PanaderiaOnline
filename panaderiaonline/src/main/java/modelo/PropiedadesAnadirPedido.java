@@ -11,6 +11,12 @@ import services.conector.Conector;
 import services.dao.Producto;
 import services.manager.ProductoManager;
 
+/**
+ * 
+ * @author Christian Pons Hernández
+ *
+ */
+
 @Getter
 public class PropiedadesAnadirPedido {
 

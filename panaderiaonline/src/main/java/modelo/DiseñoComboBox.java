@@ -3,6 +3,12 @@ package modelo;
 import javafx.scene.control.ListCell;
 import services.dao.Producto;
 
+/**
+ * 
+ * @author Christian Pons Hernández
+ *
+ */
+
 public class DiseñoComboBox extends ListCell<Producto>{
 
     @Override

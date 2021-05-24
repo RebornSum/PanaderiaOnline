@@ -28,6 +28,12 @@ import services.dao.Producto;
 import services.manager.PedClienteManager;
 import services.manager.ProductoManager;
 
+/**
+ * 
+ * @author Christian Pons Hernández
+ *
+ */
+
 public class CMostrarPedidos implements Initializable{
 
 	//	ATRIBUTOS
@@ -35,18 +41,26 @@ public class CMostrarPedidos implements Initializable{
 	@FXML private VBox ventana;
 	private PropiedadesMostrarPedidos datos;
 	private VBox seccion2;
+	
+	
+	//	INICIALIZADOR
+	
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		datos = new PropiedadesMostrarPedidos();
 		crearSecciones();
-		prepararSeccion1((FlowPane)ventana.getChildren().get(0));
-		seccion2 = (VBox)ventana.getChildren().get(1);
+		prepararSeccion1();
+		seccion2 = (VBox)ventana.getChildren().get(1); // se hace una variable para que sea más facil usarla
 		mostrarDatosOrdenados(1);
 		
 		
 	}
 	
 
+	/**
+	 * Crea las secciones necesarias para la ventana.
+	 */
 	private void crearSecciones() {
 		List<Node>hijosVentana = ventana.getChildren();
 		hijosVentana.add(new FlowPane());
@@ -55,9 +69,12 @@ public class CMostrarPedidos implements Initializable{
 	}
 	
 	
-	private void prepararSeccion1(FlowPane panel) {
-		panel.setMinHeight(datos.getVMostrarPedidosTamanoSección1());
-		List<Node>hijosPanel = panel.getChildren();
+	/**
+	 * hace toda la primera sección de la ventana y añade los eventos de ratón a los botones.
+	 */
+	private void prepararSeccion1() {
+		((FlowPane)ventana.getChildren().get(0)).setMinHeight(datos.getVMostrarPedidosTamanoSección1());
+		List<Node>hijosPanel = ((FlowPane)ventana.getChildren().get(0)).getChildren();
 		
 		for(int i = 0; i < datos.getNumeroBotones(); i++) {
 			Button boton = new Button(datos.getTextosBotones().get(i));
@@ -68,6 +85,10 @@ public class CMostrarPedidos implements Initializable{
 	}
 	
 	
+	/**
+	 * recibe una opcion de uno de los eventos, ordena todos los pedidos en función de esa opción y los añade a la ventana.
+	 * @param opcion valor numérico que indica cómo se va a ordenar los pedidos.
+	 */
 	private void mostrarDatosOrdenados(int opcion) {
 		List<PedCliente>listaOrdenada;
 		List<Node>hijosSeccion = seccion2.getChildren();
@@ -86,26 +107,40 @@ public class CMostrarPedidos implements Initializable{
 			
 		default:
 			listaOrdenada = listaordenadaPorTiposDePanes();
-				
+			
 		}
 		
 		listaOrdenada.forEach(pedido -> {
 			mostrarPedidos(paneles, pedido);
 		});
 		hijosSeccion.addAll(paneles);
-		
 	}
 
 
+	/**
+	 * Añade un panel los datos de de un pedido a la lista de paneles.
+	 * @param paneles lista de paneles que pertenecerán a la ventana.
+	 * @param pedido pedido actual a ser introducido en la ventana.
+	 */
 	private void mostrarPedidos(List<FlowPane> paneles, PedCliente pedido) {
 		FlowPane panel = new FlowPane();
 		List<Node>hijosPanel = panel.getChildren();
+		
 		hijosPanel.add(new Label(datos.getTextosLabels1().get(0)));
 		hijosPanel.add(new TextField(pedido.getTelefono()));
+		
+		((TextField)hijosPanel.get(1)).setEditable(false);
+		
 		hijosPanel.add(new Label(datos.getTextosLabels1().get(1)));
 		hijosPanel.add(new TextField("" + pedido.getFecha()));
+		
+		((TextField)hijosPanel.get(3)).setEditable(false);
+		
 		hijosPanel.add(new Label(datos.getTextosLabels1().get(2)));
 		hijosPanel.add(new TextField(""+ pedido.getNumPedido()));
+		
+		((TextField)hijosPanel.get(5)).setEditable(false);
+		
 		paneles.add(panel);
 		pedido.getPedidos().forEach(subPedido -> {
 			mostrarSubPedidos(paneles, subPedido);
@@ -113,17 +148,34 @@ public class CMostrarPedidos implements Initializable{
 	}
 
 
+	/**
+	 * Se encarga de añadir un panel a la lista de paneles con todos los datos de un producto de un pedido a la ventana.
+	 * @param paneles Lista de paneles que pertenecerán a la ventana.
+	 * @param subPedido producto del pedido.
+	 */
 	private void mostrarSubPedidos(List<FlowPane> paneles, Pedido subPedido) {
 		FlowPane subPanel = new FlowPane();
 		List<Node>hijosSubPanel = subPanel.getChildren();
+		
 		hijosSubPanel.add(new Label(datos.getTextosLabels2().get(0)));
 		hijosSubPanel.add(new TextField(subPedido.getProducto().getNombre()));
+		
+		((TextField)hijosSubPanel.get(1)).setEditable(false);
+		
 		hijosSubPanel.add(new Label(datos.getTextosLabels2().get(1)));
 		hijosSubPanel.add(new TextField("" + subPedido.getCantidad()));
+		
+		
+		((TextField)hijosSubPanel.get(3)).setEditable(false);
+		
 		paneles.add(subPanel);
 	}
 
 
+	/**
+	 * obtiene la lista de todos los pedidos y la ordena por el número de teléfono.
+	 * @return lista ordenada.
+	 */
 	public List<PedCliente> listaOrdenadaPorCliente() {
 		try (Connection con = new Conector().getMySQLConnection()){
 			List<PedCliente> listaOrdenada = new PedClienteManager().obtenerTodosLosPedidos(con).stream()
@@ -137,6 +189,11 @@ public class CMostrarPedidos implements Initializable{
 		
 	}
 
+	
+	/**
+	 * obtiene la lista de todos los productos y la ordena por su fecha.
+	 * @return lista ordenada
+	 */
 	public List<PedCliente> listaOrdenadaPorDía() {
 		try (Connection con = new Conector().getMySQLConnection()){
 			List<PedCliente> listaOrdenada = new PedClienteManager().obtenerTodosLosPedidos(con).stream()
@@ -149,8 +206,11 @@ public class CMostrarPedidos implements Initializable{
 		}
 	}
 
-	//	PENDIENTE DE HACER
-	
+
+	/**
+	 * obtiene una lista de todos los productos y la ordena por productos.
+	 * @return lista ordenada.
+	 */
 	public List<PedCliente> listaordenadaPorTiposDePanes() {
 		try (Connection con = new Conector().getMySQLConnection()){
 			List<PedCliente> lista = new PedClienteManager().obtenerTodosLosPedidos(con);
@@ -158,7 +218,7 @@ public class CMostrarPedidos implements Initializable{
 			List<PedCliente>yaEnLaLista = new ArrayList<>();
 			List<Producto>productos = new ProductoManager().obtenerProductos(con);
 			
-			for(int i = 0; i < productos.size(); i++) {
+			/*for(int i = 0; i < productos.size(); i++) {
 				for(int j = 0; j < lista.size(); j++) {
 					for(int k = 0; k < lista.get(j).getPedidos().size(); k++) {
 						if(lista.get(j).getPedidos().get(k).getCodigoProducto() == productos.get(i).getCodigo()) {
@@ -170,7 +230,21 @@ public class CMostrarPedidos implements Initializable{
 						}
 					}
 				}
-			}
+			}*/
+			
+			//	Tanto la parte comentada como la siguiente hacen lo mismo.
+			
+			productos.forEach(producto ->{
+				lista.forEach(pedido ->{
+					pedido.getPedidos().forEach(subPedido ->{
+						if(subPedido.getCodigoProducto() == producto.getCodigo() && !yaEnLaLista.contains(pedido)) {
+							listaOrdenada.add(pedido);
+							yaEnLaLista.add(pedido);
+							subPedido = pedido.getPedidos().get(pedido.getPedidos().size() - 1);
+						}
+					});
+				});
+			});
 	
 			
 
@@ -182,6 +256,16 @@ public class CMostrarPedidos implements Initializable{
 	}
 	
 	
+	//	EVENTOS
+	
+	
+	/**
+	 * Recoge la id del botón que realiza el evento y realiza una acción.
+	 * 	<ul>
+	 * 		<li>Si la id es 0 se vuelve al inicio.</li>
+	 * 		<li>Cualquier otra id llama al método mostrarDatosOrdenados indicando la opción para ordenar los datos.</li>
+	 * 	</ul>
+	 */
 	EventHandler<MouseEvent> eventosBotones = new EventHandler<MouseEvent>() {
 		
 		@Override

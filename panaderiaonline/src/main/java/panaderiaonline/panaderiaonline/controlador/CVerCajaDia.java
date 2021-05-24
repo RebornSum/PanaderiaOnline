@@ -30,11 +30,17 @@ import services.manager.PedClienteManager;
 
 public class CVerCajaDia implements Initializable {
 
+	//	ATRIBUTOS
+	
 	@FXML private FlowPane ventana;
 	private PropiedadesVVerCajaDia datos;
 	private TextField cajaDelDia;
 	private Double dinero;
 
+	
+	//	INICIALIZADOR
+	
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		datos = new PropiedadesVVerCajaDia();
@@ -42,16 +48,28 @@ public class CVerCajaDia implements Initializable {
 		
 	}
 
+	
+	//	MÉTODOS
+	
+	/**
+	 * hace toda la ventana llamando a los eventos correspondientes.
+	 */
 	private void PrepararVentana() {
 		List<Node>hijosVentana = ventana.getChildren();
 		List<Button> botones = crearBotones();
 		hijosVentana.add(botones.get(0));
 		hijosVentana.add(new Label(datos.getTextos().get(2)));
 		cajaDelDia = new TextField();
+		cajaDelDia.setEditable(false);
 		hijosVentana.add(cajaDelDia);
 		hijosVentana.add(botones.get(1));
 	}
-
+	
+	
+	/**
+	 * Crea tantos botones como cantidad de textos en su modelo y les añade el evento.
+	 * @return lista de todos los botones.
+	 */
 	private List<Button> crearBotones() {
 		List<Button>botones = new ArrayList<>();
 		
@@ -64,6 +82,11 @@ public class CVerCajaDia implements Initializable {
 		return botones;
 	}
 	
+	
+	/**
+	 * Recoge todos los pedidos que tengan la misma fecha que el día actual y pone el valor de la suma de todos los productos
+	 * en el TextField cajaDelDia.
+	 */
 	private void calcularCaja() {
 		try(Connection con = new Conector().getMySQLConnection()) {
 			LocalDate fecha = LocalDate.now();
@@ -88,6 +111,13 @@ public class CVerCajaDia implements Initializable {
 	}
 	
 	
+	/**
+	 * recoge la id del botón que ha realizado el evento.
+	 * <ul>
+	 * 		<li>si la id del bóton es "0" volverá al inicio.</li>
+	 * 		<li>si no es así, llamará al evento calcularCaja.</li>
+	 * </ul>
+	 */
 	EventHandler<MouseEvent>eventosBotones = new EventHandler<MouseEvent>() {
 		
 		@Override

@@ -5,6 +5,12 @@ import java.util.List;
 
 import lombok.Getter;
 
+/**
+ * 
+ * @author Christian Pons Hernández
+ *
+ */
+
 @Getter
 public class PropiedadesEntregarPedido {
 
@@ -15,7 +21,7 @@ public class PropiedadesEntregarPedido {
 	
 	public PropiedadesEntregarPedido() {
 		textosBotones = Arrays.asList("Volver","Imprimir recivo");
-		textosLabel = Arrays.asList("Producto: ","Cantidad: ", "Precio unidad: ");
+		textosLabel = Arrays.asList("Producto: ","Cantidad: ", "Precio unidad: ","Total: ");
 		telefono = "Telefono: ";
 		prompText = "Número del pedido";
 	}

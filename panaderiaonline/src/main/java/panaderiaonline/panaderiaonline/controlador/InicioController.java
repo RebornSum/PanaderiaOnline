@@ -20,6 +20,12 @@ import modelo.PropiedadesAnadirPedido;
 import modelo.TitulosYmenus;
 import panaderiaonline.panaderiaonline.App;
 
+/**
+ * 
+ * @author Christian Pons Hernández
+ *
+ */
+
 public class InicioController implements Initializable{
 
 	// ATRIBUTOS

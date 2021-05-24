@@ -33,6 +33,12 @@ import services.manager.PedClienteManager;
 import services.manager.PedidoManager;
 import services.manager.ProductoManager;
 
+/**
+ * 
+ * @author Christian Pons Hernández
+ *
+ */
+
 public class CAnadirPedido implements Initializable{
 	
 	//	ATRIBUTOS

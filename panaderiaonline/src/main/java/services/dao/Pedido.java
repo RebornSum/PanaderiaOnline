@@ -6,6 +6,12 @@ import java.sql.SQLException;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 
+ * @author Christian Pons Hernández
+ *
+ */
+
 @Getter
 public class Pedido {
 	private int numPedido;

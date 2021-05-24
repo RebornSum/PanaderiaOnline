@@ -5,6 +5,12 @@ import java.util.List;
 
 import lombok.Getter;
 
+/**
+ * 
+ * @author Christian Pons Hernández
+ *
+ */
+
 @Getter
 public class PropiedadesMostrarPedidos {
 	private int vMostrarPedidosTamanoSección1;
