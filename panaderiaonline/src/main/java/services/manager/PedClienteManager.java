@@ -39,17 +39,20 @@ public class PedClienteManager {
 
 	// Pendiente de creación
 
-	public void añadirPedido(Connection con, String telefono, int numPedido) {
+	public boolean añadirPedido(Connection con, String telefono, int numPedido) {
 		try (PreparedStatement stmt = con.prepareStatement(
-				"INSERT INTO ped_clientes values(?,?,?")){
+				"INSERT INTO ped_cliente values(?,?,?)")){
 			
 			stmt.setString(1, telefono);
 			stmt.setInt(2, numPedido);
 			stmt.setDate(3, new Date(System.currentTimeMillis()));
 			stmt.executeUpdate();
 			
+			return true;
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 
@@ -69,7 +72,9 @@ public class PedClienteManager {
 	public int obtenerNumeroPedido(Connection con) {
 		try (Statement stmt = con.createStatement()){
 			ResultSet result = stmt.executeQuery("SELECT COALESCE(MAX(num_pedido),0) FROM ped_cliente");
-			return result.getInt(0) + 1;
+			result.first();
+			int valor = result.getInt("COALESCE(MAX(num_pedido),0)");
+			return valor + 1;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

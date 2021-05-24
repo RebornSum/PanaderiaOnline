@@ -16,25 +16,41 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import modelo.PropiedadesAñadirPedido;
+import modelo.PropiedadesAnadirPedido;
+import modelo.TitulosYmenus;
 import panaderiaonline.panaderiaonline.App;
 
 public class InicioController implements Initializable{
 
+	// ATRIBUTOS
+	
 	@FXML HBox ventana;
 	Button boton;
+	private TitulosYmenus t;
+	
+	
+	//	INICIALIZADOR
 	
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		t = new TitulosYmenus();
 		añadirBotones();
 		
 		
 	}
+	
+	
+	//	MÉTODOS
+	
 
+	/**
+	 * 	Añade tantos botones a la ventana como textos haya en su modelo.
+	 *  A cada botón se le añade un evento de ratón.
+	 */
 	private void añadirBotones() {
 		List<Node> hijosVentana = ventana.getChildren();
-		PropiedadesAñadirPedido t = new PropiedadesAñadirPedido();
+		
 		
 		for(int i = 0; i < t.getTextosMenu().size(); i++) {
 			this.boton = new Button(t.getTextosMenu().get(i));
@@ -45,7 +61,14 @@ public class InicioController implements Initializable{
 		
 	}
 	
-	   EventHandler<MouseEvent> accionBoton = new EventHandler<MouseEvent>() {
+	
+	//	EVENTOS
+	
+	
+	/**
+	 * Este evento recoge la id del botón que ha realizado el evento y llama a la ventana correspondiente.
+	 */
+	EventHandler<MouseEvent> accionBoton = new EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent evt) {
@@ -71,6 +94,15 @@ public class InicioController implements Initializable{
 					break;
 					
 				case 2:
+					try {
+						App.setRoot("VHacerProductos");
+						
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					break;
+					
+				case 3:
 					try {
 						App.setRoot("VVerCajaDia");
 						

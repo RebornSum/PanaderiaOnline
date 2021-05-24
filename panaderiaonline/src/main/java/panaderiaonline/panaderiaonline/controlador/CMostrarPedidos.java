@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -31,6 +30,8 @@ import services.manager.ProductoManager;
 
 public class CMostrarPedidos implements Initializable{
 
+	//	ATRIBUTOS
+	
 	@FXML private VBox ventana;
 	private PropiedadesMostrarPedidos datos;
 	private VBox seccion2;
@@ -62,6 +63,7 @@ public class CMostrarPedidos implements Initializable{
 			Button boton = new Button(datos.getTextosBotones().get(i));
 			boton.setId("" + i);
 			boton.addEventHandler(MouseEvent.MOUSE_CLICKED, eventosBotones);
+			hijosPanel.add(boton);
 		}	
 	}
 	
@@ -69,6 +71,7 @@ public class CMostrarPedidos implements Initializable{
 	private void mostrarDatosOrdenados(int opcion) {
 		List<PedCliente>listaOrdenada;
 		List<Node>hijosSeccion = seccion2.getChildren();
+		hijosSeccion.removeAll(hijosSeccion);
 		List<FlowPane> paneles = new ArrayList<>();
 		
 		switch(opcion) {
@@ -88,9 +91,8 @@ public class CMostrarPedidos implements Initializable{
 		
 		listaOrdenada.forEach(pedido -> {
 			mostrarPedidos(paneles, pedido);
-			
-			
 		});
+		hijosSeccion.addAll(paneles);
 		
 	}
 

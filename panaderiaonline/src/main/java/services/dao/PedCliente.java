@@ -25,4 +25,8 @@ public class PedCliente {
 			e.printStackTrace();
 		}
 	}
+	
+	public PedCliente() {
+		
+	}
 }

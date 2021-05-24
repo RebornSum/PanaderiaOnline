@@ -41,8 +41,12 @@ public class PedidoManager {
 		
 	}
 
-	public void añadirPedido(Connection con, Object object, String string) {
-		try(PreparedStatement stmt = con.prepareStatement("INSERT INTO pedidos")) {
+	public void añadirPedido(Connection con, int numPedido, int codgo, int cantidad) {
+		try(PreparedStatement stmt = con.prepareStatement("INSERT INTO pedidos VALUES(?,?,?)")) {
+			stmt.setInt(1, numPedido);
+			stmt.setInt(2, codgo);
+			stmt.setInt(3, cantidad);
+			stmt.executeUpdate();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
