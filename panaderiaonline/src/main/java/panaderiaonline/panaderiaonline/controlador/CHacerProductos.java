@@ -4,9 +4,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -96,11 +99,15 @@ public class CHacerProductos implements Initializable {
 			e.printStackTrace();
 		}
 
+		LocalDate fecha = LocalDate.now();
+		Date fechaHoy = java.sql.Date.valueOf(fecha);
+		
 		productos.forEach(producto -> {
 			cantidades.add(0);
 		});
 
-		pedidos.forEach(pedido -> {
+		pedidos.stream().filter(pedido -> pedido.getFecha().toString().equals(fechaHoy.toString()) == true)
+				.collect(Collectors.toList()).forEach(pedido -> {
 			pedido.getPedidos().forEach(subPedido -> {
 				int indice = cantidades.indexOf(cantidades.get(subPedido.getCodigoProducto() - 1));
 				cantidades.set(indice, cantidades.get(indice) + subPedido.getCantidad());

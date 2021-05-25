@@ -108,6 +108,8 @@ public class CAnadirPedido implements Initializable{
 		List<Node>hijosSeccion = ((VBox)ventana.getChildren().get(1)).getChildren();
 		
 		FlowPane panel = new FlowPane();
+		panel.setPadding(datos.getInstets());
+		
 		List<Node>hijosPanel = panel.getChildren();
 		
 		hijosPanel.add(new Label(datos.getTextosSeccion2().get(0)));
@@ -150,6 +152,7 @@ public class CAnadirPedido implements Initializable{
 		
 		TextField cajaTexto = new TextField();
 		cajaTexto.setPromptText(datos.getPromptText());
+		cajaTexto.addEventHandler(KeyEvent.KEY_TYPED,eventosCantidades);
 		cantidades.add(cajaTexto);
 		hijosPanel.add(cajaTexto);
 		
@@ -222,9 +225,27 @@ public class CAnadirPedido implements Initializable{
 		}
 	};
 	
+	/**
+	 * Se encarga de evitar introducir valores no numéricos en las cajas de las cantidades y que no superen los 2 dígitos en cantidad.
+	 */
+	EventHandler<KeyEvent> eventosCantidades = new EventHandler<KeyEvent>() {
+		
+		@Override
+		public void handle(KeyEvent evt) {
+			if(!datos.getNumeros().contains(evt.getCharacter())) {
+				evt.consume();
+			}
+			
+			if(((TextField)evt.getSource()).getText().length() >= datos.getTamanoCantidad()) {
+				evt.consume();
+			}
+			
+		}
+	};
+	
 	
 	/**
-	 * Coje la id del botón que ha realizado el evento y realiza una acción.
+	 * Coge la id del botón que ha realizado el evento y realiza una acción.
 	 */
 	EventHandler<MouseEvent>eventosBotones = new EventHandler<MouseEvent>() {
 		

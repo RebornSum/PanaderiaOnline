@@ -124,6 +124,8 @@ public class CMostrarPedidos implements Initializable{
 	 */
 	private void mostrarPedidos(List<FlowPane> paneles, PedCliente pedido) {
 		FlowPane panel = new FlowPane();
+		panel.setPadding(datos.getInsets());
+		
 		List<Node>hijosPanel = panel.getChildren();
 		
 		hijosPanel.add(new Label(datos.getTextosLabels1().get(0)));

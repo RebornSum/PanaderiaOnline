@@ -29,6 +29,7 @@ public class PropiedadesAnadirPedido {
 	private List<String>mensajes;
 	private List<String>numeros;
 	private Insets instets;
+	private int tamanoCantidad;
 	
 	public PropiedadesAnadirPedido() {
 		numeroSecciones = 3;
@@ -39,6 +40,7 @@ public class PropiedadesAnadirPedido {
 		mensajes = Arrays.asList("Introduce un teléfono real","El pedido ya ha sido introducido","Pedido añadido corréctamente");
 		numeros = Arrays.asList("0","1","2","3","4","5","6","7","8","9");
 		instets = new Insets(20, 0, 0, 0);
+		tamanoCantidad = 2;
 		
 	}
 }

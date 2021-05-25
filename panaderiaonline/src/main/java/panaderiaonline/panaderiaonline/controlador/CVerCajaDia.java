@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -100,13 +100,14 @@ public class CVerCajaDia implements Initializable {
 			Date fechaHoy = java.sql.Date.valueOf(fecha);
 			
 			List<PedCliente> pedidos = new PedClienteManager().obtenerTodosLosPedidos(con);
-			pedidos.stream().filter(pedido -> pedido.getFecha().compareTo(fechaHoy) == 0).collect(Collectors.toList());
+			
 			dinero = 0.0;
 			
-			pedidos.forEach(pedido ->{
-				pedido.getPedidos().forEach(subPedido -> {
-					 dinero += subPedido.getProducto().getPrecio() * subPedido.getCantidad();
-				});
+			pedidos.stream().filter(pedido -> pedido.getFecha().toString().equals(fechaHoy.toString()) == true)
+					.collect(Collectors.toList()).forEach(pedido -> {
+						pedido.getPedidos().forEach(subPedido -> {
+							dinero += subPedido.getProducto().getPrecio() * subPedido.getCantidad();
+						});
 			});
 			
 			cajaDelDia.setText("" + dinero);

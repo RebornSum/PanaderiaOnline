@@ -18,9 +18,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import modelo.PropiedadesAnadirPedido;
 import modelo.PropiedadesEntregarPedido;
 import panaderiaonline.panaderiaonline.App;
 import services.conector.Conector;
@@ -81,6 +83,7 @@ public class CEntregarPedido implements Initializable {
 		hijosSeccion.add(new Label(datos.getTelefono()));
 		
 		telefono = new TextField();
+		telefono.addEventHandler(KeyEvent.KEY_TYPED, eventosTeclado);
 		hijosSeccion.add(telefono);
 		
 		numPedido = new TextField();
@@ -129,7 +132,7 @@ public class CEntregarPedido implements Initializable {
 			
 		} catch (NullPointerException a) {
 			Alert m = new Alert(AlertType.ERROR);
-			m.setContentText(datos.getError());
+			m.setContentText(datos.getError().get(0));
 			m.show();
 		}
 		
@@ -194,7 +197,7 @@ public class CEntregarPedido implements Initializable {
 		@Override
 		public void handle(MouseEvent evt) {
 			
-			if(((Control)evt.getSource()).getId() == "0") {
+			if(((Control)evt.getSource()).getId().equals("0")) {
 				try {
 					App.setRoot("Inicio");
 					
@@ -204,9 +207,31 @@ public class CEntregarPedido implements Initializable {
 				}
 				
 			}else{
+				if(telefono.getText().length() != new PropiedadesAnadirPedido().getTamanoTelefono()) {
+					Alert a = new Alert(AlertType.WARNING);
+					a.setContentText(datos.getError().get(1));
+				}
 				imprimirRecivo();
 				
 			}
+		}
+	};
+	
+	/**
+	 * Se asegura de que el teléfono introducido contenga solo números y no sea superior al tamaño indicado
+	 */
+	EventHandler<KeyEvent>eventosTeclado = new EventHandler<KeyEvent>() {
+
+		@Override
+		public void handle(KeyEvent evt) {
+			if(((TextField)evt.getSource()).getText().length() >= new PropiedadesAnadirPedido().getTamanoTelefono()) {
+				evt.consume();
+			}
+			
+			if(!datos.getNumeros().contains(evt.getCharacter())) {
+				evt.consume();
+			}
+			
 		}
 	};
 	
